@@ -9,6 +9,11 @@ public class App {
     }
 
     public static void main(String[] args) {
+        //1 ,2 , 5
+        // 0 , 4
+
+        // 0, 1, 2, 4, 5
         System.out.println(new App().getGreeting());
+
     }
 }
