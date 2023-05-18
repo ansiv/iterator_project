@@ -11,7 +11,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AppTest {
 
@@ -22,13 +23,13 @@ class AppTest {
     void testSortedSuccess() {
         SuperIterator superIterator = new SuperIterator(
                 Arrays.asList(
-                        new TestIterator(Arrays.asList(2, 3)),
-                        new TestIterator(Arrays.asList(2, 3, 10, 22, 0 , -1)),
-                        new TestIterator(Arrays.asList(0, 1, 7, 4))
+                        new TestIterator(Arrays.asList(2, 3).iterator()),
+                        new TestIterator(Arrays.asList(2, 3, 10, 22, 0, -1).iterator()),
+                        new TestIterator(Arrays.asList(0, 1, 7, 4).iterator())
                 )
         );
 
-        List<Integer> excepted = List.of(-1, 0, 0, 1, 2, 2, 3, 3, 4, 7, 10, 22);
+        List<Integer> excepted = Arrays.asList(-1, 0, 0, 1, 2, 2, 3, 3, 4, 7, 10, 22);
         List<Integer> actual = new ArrayList<>();
 
         while (superIterator.hasNext()) {
@@ -43,16 +44,44 @@ class AppTest {
 
     @Test
     void testInfinity() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new SuperIterator(
-                    Arrays.asList(
-                            new ConstIterator(),
-                            new TestIterator(Arrays.asList(0, 1))
-                    )
-            );
-        });
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                new SuperIterator(
+                        Arrays.asList(
+                                new ConstIterator(),
+                                new TestIterator(Arrays.asList(0, 1).iterator())
+                        )
+                )
+        );
 
-        String expectedMessage = "Итератор не может быть бесконечным";
+        String expectedMessage = "Not implemented yet2";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+
+    }
+
+    @Test
+    void testOnArgumentNull() {
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> new SuperIterator(null));
+        String expectedMessage = "Iterators must be not empty";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+
+    }
+
+    @Test
+    void testOneIteratorIsNull() {
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> new SuperIterator(
+                Arrays.asList(
+                        null,
+                        new TestIterator(Arrays.asList(2, 3, 10, 22, 0, -1).iterator()),
+                        new TestIterator(Arrays.asList(0, 1, 7, 4).iterator())
+                )
+        ));
+        String expectedMessage = "Not implemented yet";
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));

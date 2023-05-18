@@ -1,20 +1,18 @@
 package com.example;
 
-import java.util.Collection;
-
 public class TestIterator implements Iterator{
-    private final java.util.Iterator<Integer> c;
-    public TestIterator(Collection<Integer> c) {
-        this.c = c.iterator();
+    private final java.util.Iterator<Integer> iterator;
+    public TestIterator(java.util.Iterator<Integer> iterator) {
+        this.iterator = iterator;
     }
 
     @Override
     public boolean hasNext() {
-        return c.hasNext();
+        return iterator.hasNext();
     }
 
     @Override
     public int next() {
-        return c.next();
+        return iterator.next();
     }
 }
